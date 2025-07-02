@@ -119,6 +119,12 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${spring.boot.mybatis.version}</version>
             </dependency>
+            <!-- 动态数据源 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${spring.boot.mybatis.version}</version>
+            </dependency>
             <!-- springboot-web -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

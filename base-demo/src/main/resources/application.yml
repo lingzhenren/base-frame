@@ -4,6 +4,34 @@ server:
 spring:
   mvc:
     static-path-pattern: /static/**
+  datasource:
+    dynamic:
+      primary: cloud      # 默认使用 cloud 数据源
+      strict: false
+      datasource:
+        cloud:
+          url: jdbc:mysql://47.108.144.133:3306/canal_test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+        local:
+          url: jdbc:mysql://127.0.0.1:3306/canal_test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+
+
+#  datasource:
+#    dynamic:
+#      primary: master
+#      username: root
+#      password: 123456
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://127.0.0.1:3306/canal_test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+#      type: com.alibaba.druid.pool.DruidDataSource
+
 
 
 #xxl:
