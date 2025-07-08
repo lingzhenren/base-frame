@@ -14,4 +14,6 @@ public interface SyncHandler {
     SyncHandlerEnum getSyncHandlerEnum();
 
     void excute(CanalBinlogLog canalBinlogLog);
+
+    String buildSql(CanalBinlogLog canalBinlogLog);
 }

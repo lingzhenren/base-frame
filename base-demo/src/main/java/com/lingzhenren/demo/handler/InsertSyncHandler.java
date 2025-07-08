@@ -1,8 +1,12 @@
 package com.lingzhenren.demo.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.lingzhenren.demo.entity.CanalBinlogLog;
 import com.lingzhenren.demo.enums.SyncHandlerEnum;
+import com.lingzhenren.demo.utils.DataSourceSwitcher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -15,21 +19,24 @@ import java.util.Map;
 @Component
 public class InsertSyncHandler implements SyncHandler{
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @Override
     public SyncHandlerEnum getSyncHandlerEnum() {
         return SyncHandlerEnum.INSERT;
     }
 
 
+    @DS(value = DataSourceSwitcher.CLOUD)
     @Override
     public void excute(CanalBinlogLog canalBinlogLog) {
         //1、获取表名、构建插入SQL语句
-
+        jdbcTemplate.execute(buildSql(canalBinlogLog));
     }
 
-
-    private String syncInsert(String table, String json) {
-        Map<String, Object> map = JSON.parseObject(json);
+    @Override
+    public String buildSql(CanalBinlogLog canalBinlogLog) {
+        Map<String, Object> map = JSON.parseObject(canalBinlogLog.getAfterContent());
         StringBuilder fields = new StringBuilder();
         StringBuilder values = new StringBuilder();
 
@@ -39,7 +46,7 @@ public class InsertSyncHandler implements SyncHandler{
         });
 
         return String.format("INSERT INTO %s (%s) VALUES (%s)",
-                table,
+                canalBinlogLog.getTableName(),
                 fields.substring(0, fields.length() - 1),
                 values.substring(0, values.length() - 1)
         );
